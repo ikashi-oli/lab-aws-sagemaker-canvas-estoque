@@ -1,47 +1,67 @@
 # 📊 Previsão de Estoque Inteligente na AWS com [SageMaker Canvas](https://aws.amazon.com/pt/sagemaker/canvas/)
 
-Bem-vindo ao desafio de projeto "Previsão de Estoque Inteligente na AWS com SageMaker Canvas. Neste Lab DIO, você aprenderá a usar o SageMaker Canvas para criar previsões de estoque baseadas em Machine Learning (ML). Siga os passos abaixo para completar o desafio!
+O objetivo deste projeto foi utilizar o SageMaker Canvas da AWS para criar um modelo de machine learning capaz de prever a demanda de estoque, ajudando a otimizar a gestão de inventário e melhorar a eficiência operacional
 
-## 📋 Pré-requisitos
-
-Antes de começar, certifique-se de ter uma conta na AWS. Se precisar de ajuda para criar sua conta, confira nosso repositório [AWS Cloud Quickstart](https://github.com/digitalinnovationone/aws-cloud-quickstart).
-
-
-## 🎯 Objetivos Deste Desafio de Projeto (Lab)
-
-![image](https://github.com/digitalinnovationone/lab-aws-sagemaker-canvas-estoque/assets/730492/72f5c21f-5562-491e-aa42-2885a3184650)
-
-- Dê um fork neste projeto e reescreva este `README.md`. Sinta-se à vontade para detalhar todo o processo de criação do seu Modelo de ML para uma "Previsão de Estoque Inteligente".
-- Para isso, siga o [passo a passo] descrito a seguir e evolua as suas habilidades em ML no-code com o Amazon SageMaker Canvas.
-- Ao concluir, envie a URL do seu repositório com a solução na plataforma da DIO.
-
+O dataset escolhido para treinar o modelo de previsão de estoque foi o “dataset-1000-com-preco-variavel-e-renovacao-estoque.csv”
 
 ## 🚀 Passo a Passo
 
-### 1. Selecionar Dataset
+### 1. configurações
 
--   Navegue até a pasta `datasets` deste repositório. Esta pasta contém os datasets que você poderá escolher para treinar e testar seu modelo de ML. Sinta-se à vontade para gerar/enriquecer seus próprios datasets, quanto mais você se engajar, mais relevante esse projeto será em seu portfólio.
--   Escolha o dataset que você usará para treinar seu modelo de previsão de estoque.
--   Faça o upload do dataset no SageMaker Canvas.
+A coluna "QUANTIDADE_ESTOQUE" foi selecionada como a coluna alvo, pois representa a quantidade de estoque disponível, que é a variável que desejamos prever. A previsão precisa dessa quantidade é crucial para otimizar a gestão de inventário.
 
-### 2. Construir/Treinar
+A coluna "ID_PRODUTO" foi escolhida para identificar de forma única cada item no conjunto de dados. Isso é essencial para diferenciar os produtos e prever a demanda individualmente para cada um.
 
--   No SageMaker Canvas, importe o dataset que você selecionou.
--   Configure as variáveis de entrada e saída de acordo com os dados.
--   Inicie o treinamento do modelo. Isso pode levar algum tempo, dependendo do tamanho do dataset.
+A coluna "PRECO" foi selecionada como coluna de agrupamento. Embora seja opcional, agrupar os dados por preço pode ajudar a identificar padrões de demanda baseados em diferentes faixas de preço, aumentando a precisão das previsões.
 
-### 3. Analisar
+A coluna "DATA_EVENTO" foi escolhida para representar os carimbos de tempo nos dados.
 
--   Após o treinamento, examine as métricas de performance do modelo.
--   Verifique as principais características que influenciam as previsões.
--   Faça ajustes no modelo se necessário e re-treine até obter um desempenho satisfatório.
+O horizonte de previsão foi definido para 5 dias. Esta escolha permite um equilíbrio entre curto e médio prazo, oferecendo previsões que podem ser imediatamente úteis para ajustes operacionais rápidos e planejamento de curto prazo.
 
-### 4. Prever
+O calendário de feriados do Brasil foi selecionado porque o projeto está sendo desenvolvido no contexto brasileiro. Incluir os feriados específicos do país ajuda a capturar variações na demanda que ocorrem devido a eventos festivos e feriados nacionais.
 
--   Use o modelo treinado para fazer previsões de estoque.
--   Exporte os resultados e analise as previsões geradas.
--   Documente suas conclusões e qualquer insight obtido a partir das previsões.
+O método "Standard Build" foi escolhido para construir o modelo. Esta opção fornece um equilíbrio entre precisão e tempo de construção, permitindo criar um modelo robusto e eficiente sem a necessidade de configurações avançadas. É ideal para casos em que se deseja obter resultados confiáveis de forma rápida e eficiente.
 
-## 🤔 Dúvidas?
+### 2. Resultados da Análise
 
-Esperamos que esta experiência tenha sido enriquecedora e que você tenha aprendido mais sobre Machine Learning aplicado a problemas reais. Se tiver alguma dúvida, não hesite em abrir uma issue neste repositório ou entrar em contato com a equipe da DIO.
+Avg. wQL: 1.024
+O valor de Avg. wQL (Average weighted Quantile Loss) indica a perda média ponderada das previsões quantílicas. Um valor mais baixo é desejável e indica previsões mais precisas.
+
+MAPE: 0.001
+O MAPE (Mean Absolute Percentage Error) foi extremamente baixo, indicando que as previsões tiveram uma precisão alta em termos percentuais.
+
+WAPE: 1.038
+O WAPE (Weighted Absolute Percentage Error) é semelhante ao MAPE, mas ponderado.
+
+RMSE: 0.576
+O RMSE (Root Mean Square Error) foi relativamente baixo, indicando um bom desempenho do modelo na previsão dos valores absolutos do estoque.
+
+MASE: 0.003
+O MASE (Mean Absolute Scaled Error) também foi muito baixo, reforçando a eficácia do modelo na previsão de estoque.
+
+A coluna "Holiday_BR" (calendário de feriados no Brasil) não teve impacto significativo na acurácia do modelo. Isso pode indicar que os feriados não influenciam diretamente a demanda de estoque para os produtos analisados.
+
+### 3. Análise das Previsões
+
+A análise dos percentis mostra variações mínimas na demanda esperada, sugerindo uma tendência de estabilidade.
+
+As previsões para os dias subsequentes variam ligeiramente em torno de zero, indicando que a demanda deve permanecer estável, com pequenas flutuações.
+
+### 4. Conclusões
+
+Estabilidade na Demanda
+
+As previsões indicam uma demanda estável, com pequenas variações ao redor de zero, sugerindo que o estoque não precisará de grandes ajustes imediatos.
+Impacto dos Feriados
+
+A coluna "Holiday_BR" não impactou significativamente as previsões, o que indica que os feriados não afetam a demanda de forma substancial para este produto específico.
+Precisão do Modelo
+
+As métricas de desempenho (como RMSE e MAPE) indicam que o modelo é preciso e confiável para prever a demanda de estoque.
+
+## Insights
+
+Previsões de Demanda Estáveis: As previsões indicam uma demanda estável nos próximos dias, o que pode ser útil para manter níveis de estoque consistentes.
+
+Ferramenta Eficiente: O SageMaker Canvas provou ser uma ferramenta eficiente para criar previsões de demanda precisas, suportando decisões de gestão de estoque baseadas em dados.
+
