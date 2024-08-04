@@ -54,8 +54,7 @@ Estabilidade na Demanda
 As previsões indicam uma demanda estável, com pequenas variações ao redor de zero, sugerindo que o estoque não precisará de grandes ajustes imediatos.
 Impacto dos Feriados
 
-A coluna "Holiday_BR" não impactou significativamente as previsões, o que indica que os feriados não afetam a demanda de forma substancial para este produto específico.
-Precisão do Modelo
+A coluna "Holiday_BR" não impactou significativamente as previsões, o que indica que os feriados não afetam a demanda de forma substancial.
 
 As métricas de desempenho (como RMSE e MAPE) indicam que o modelo é preciso e confiável para prever a demanda de estoque.
 
